@@ -4,8 +4,11 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Srikar2610/python-docker-app.git'
-            }
+    git branch: 'main', 
+        credentialsId: 'github-id',
+        url: 'https://github.com/Srikar2610/python-docker-app.git'
+}
+
         }
 
         stage('Install Dependencies') {
