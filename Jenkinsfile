@@ -1,16 +1,27 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_IMAGE = 'srikar2610/python-app:latest'
-    }
+
     stages {
         stage('Clone Repository') {
             steps {
-                git url:'https://github.com/Srikar2610/python-docker-app.git',branch:'main'
+                git branch: 'main', url: 'https://github.com/Srikar2610/python-docker-app.git'
             }
         }
-        
-        
-        
+
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                python3 -m venv venv
+                source venv/bin/activate
+                pip install -r requirements.txt
+                '''
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'pytest tests/'
+            }
+        }
     }
 }
